@@ -1,9 +1,20 @@
 #include <xc.h>
 #include <pic18f4321.h>
 
-//JAJAJAJ
+
+void initPorts(void) {
+
+}
+
 
 void main() {
+    initPorts();
+
+
+    while(1) {
+        //Call all motors
+        
+    }
+
     return;
-    
 }
