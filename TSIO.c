@@ -1,3 +1,4 @@
+#include <pic18f4321.inc>
 #include "TSIO.h"
 
 
@@ -19,7 +20,7 @@
 
 
 void initSIO(void) {
-    TXSTAbits.TXEN = 1;
+    TXSTAbits.TXEN = 1; //Si da problemas mirar esto
     TXSTAbits.SYNC = 1;
     TXSTAbits.BRGH = 1;
 
@@ -33,8 +34,18 @@ void initSIO(void) {
     SPBRG = 0b00010000;
 }
 
+char SiCharAvail(void) {
+    return PIR1bits.RCIF;
+}
 
+char getChar (void){
+    return RCREG;
+}
 
+char SiIsAvailable(void) {
+    return TXSTAbits.TRMT;
+}
 
-
-
+void SiSendChar(char c) {
+    TXREG = c;
+}

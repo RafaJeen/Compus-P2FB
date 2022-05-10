@@ -3,6 +3,7 @@
 #include "TiTTimer.h"
 #include "LcLCD.h"
 #include "TSIO.h"
+#include "TADC.h"
 
 
 //Configs de asm. El fet de posar pragma ens permetrà accedir al compilador i posar instruccions de asm
@@ -46,7 +47,7 @@ void main() {
     LcInit(2, 16);
     TiInit();
     initSIO();
-    //initADC();
+    initADC();
 
 
     while(1) {

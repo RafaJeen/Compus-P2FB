@@ -1,9 +1,11 @@
-#ifndef TSIO_H
-#define TSIO_H
+#ifndef _TSIO_H_
+#define _TSIO_H_
 
-int initSIO(void);
 
-int SiCharAvail(void);
+void initSIO(void);
+//Post: returns the number of available characters that are in the reception queue.
+
+char SiCharAvail(void);
 //Post: returns the number of available characters that are in the reception queue.
 //Retorna -1 if there are no available characters.
 
