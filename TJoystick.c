@@ -74,10 +74,8 @@ char checkMostra(){
         if((action == 'D' || action == 'A') && channel == 1){
             return = 1;
         }
-        return 0;
-        
+        return 0;     
     }
-    
     return 0;
 }
 
