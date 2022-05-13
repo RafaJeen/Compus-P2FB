@@ -18,7 +18,7 @@
 // Still observing the same alteration with Busy, except with the timeout.
 
 #include <xc.h>
-#include "TiTTimer.h"
+#include "TITTIMER.h"
 #include "LcTLCD.h"
 
 

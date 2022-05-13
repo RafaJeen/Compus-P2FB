@@ -1,9 +1,10 @@
 #include <xc.h>
-#include <pic18f4321.h>
-#include "TiTTimer.h"
-#include "LcLCD.h"
+#include "TITTIMER.h"
+#include "LcTLCD.h"
 #include "TSIO.h"
 #include "TADC.h"
+#include "TTeclat.h"
+#include "TGestorLCD.h"
 
 
 //Configs de asm. El fet de posar pragma ens permetrà accedir al compilador i posar instruccions de asm
@@ -48,6 +49,9 @@ void main() {
     TiInit();
     initSIO();
     initADC();
+    initTeclat();
+
+    printaPrimerMenu();
 
 
     while(1) {

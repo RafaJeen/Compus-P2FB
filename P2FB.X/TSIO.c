@@ -1,4 +1,4 @@
-#include <pic18f4321.inc>
+#include <xc.h>
 #include "TSIO.h"
 
 

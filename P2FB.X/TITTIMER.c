@@ -4,9 +4,8 @@
 // Desembre de 2001. FEC. Ajustat per al Fujitsu 90583
 // Mar� de 2010. FEC. Ajustat per al PIC24 (com passen els anys...)
 // 
-#include "tittimer.h"
-#include <p18f4321.h>
-
+#include "TITTIMER.h"
+#include <xc.h>
 
 //
 //--------------------------------CONSTANTS---AREA-----------
@@ -44,7 +43,7 @@ static int counter;
 void RSI_Timer0 (void) { 
 	// Cada 1ms, amb un error del 1,74% (segons simulador) i triga 10us
 //	IO_SetValue(GPIO_1, 1); // Per comprovar la temportitzaci�
-    	INTCONbits.TMR0IF = 0;    //Resetejo el flag de peticio d'interrupcio
+    INTCONbits.TMR0IF = 0;    //Resetejo el flag de peticio d'interrupcio
 	TMR0L=6;
 	h_Tics++;
 
@@ -71,11 +70,11 @@ void TiInit () {
 		s_Timers[counter].b_busy=TI_FALS;
 	}
 	h_Tics=0;
-	// Suposo que anem a 4MHz
-	T0CONbits.T08BIT=1; // 8 bits
+	// Anem a 40MHz
+	T0CONbits.T08BIT=0; // 16 bits
 	T0CONbits.T0CS = 0;	// Clock: fosc/4
-	T0CONbits.PSA = 0; // Prescaler
-	T0CONbits.T0PS = 1; // Preescaler a 1/4, pols de 4us
+	T0CONbits.PSA = 0; // Prescaler --> 32
+	T0CONbits.T0PS = 4; // Preescaler a 1/32, pols de 4us  
 	// La resta de valors de T1CON per defecte
 	TMR0L=6;	// (256-6) * 4us = 1ms 
 	T0CONbits.TMR0ON = 1;		// Activo el timer
