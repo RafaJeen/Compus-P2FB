@@ -192,6 +192,12 @@ void LcPutChar(char c) {
 }
 
 
+void LcPutSimpleChar(char c) {
+	// The char is written
+	WaitForBusy(); CantaData(c);
+}
+
+
 void LcPutString(char *s) {
 // Post: Paints the string from the actual cursor position. 
 // The coordinate criteria is the same as the LcPutChar. 

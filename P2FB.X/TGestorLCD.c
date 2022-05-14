@@ -11,7 +11,7 @@ const char *options[] = {'1.Login\0', '2.Register\0'};
 //Printara por el LCD
 
 
-void printaPrimerMenu() {
+void printaMenu1() {
     //Hardcodeamos que recibes un 1
     char i = 0;
     char opcio = 0;

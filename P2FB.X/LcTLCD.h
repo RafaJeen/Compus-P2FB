@@ -107,6 +107,10 @@ void LcPutChar(char c);
 // The row is never increased. 
 	// The char is written
 
+void LcPutSimpleChar(char c);	
+// Post: Paints the char in the actual cursor position
+
+
 void LcPutString(char *s);
 // Post: Paints the string from the actual cursor position. 
 // The coordinate criteria is the same as the LcPutChar. 
