@@ -1,6 +1,7 @@
 #include <xc.h>
 #include "TTeclat.h"
 #include "TITTIMER.h"
+#include "LcTLCD.h"
 
 #define TREBOTS 16
 #define ONESEC 1000
@@ -158,7 +159,9 @@ void gotDef(void){
 
 void motorTeclat(void) {
   if (estado == 0){
+    LcPutChar('e');
     if(hiHaColumna() != 3){
+      
       escombratEnabled = 0;
       columna = hiHaColumna();
       TiResetTics(t);
@@ -181,7 +184,8 @@ void motorTeclat(void) {
         }
         if (columna == hiHaColumna && modeSMS == 0){
           availability = 1;
-          estado++;
+          gotDef();
+          estado=3;
         }
     }
   } else if(estado == 2) {
