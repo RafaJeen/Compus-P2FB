@@ -1,6 +1,8 @@
 #include "TGestor.h"
 
 
+
+
 static char letter = 0;
 static char option = 0;
 static char flag = 0;
@@ -11,7 +13,8 @@ static char content = 0;
 
 void motorGestor(){
     if (estado== 0){
-        printaMenu1();
+        printaMenu(0);
+        LcPutChar('x');
         estado++;
     } else if(estado == 1) {
         if (newContent() == 1){
@@ -20,7 +23,7 @@ void motorGestor(){
         }
     } else if(estado == 2) {
         if (option == 2 || option == 1){
-            printaUserPswd();
+            printaMenu(2);
             flag = 0;
             setLCDPointer(6, flag);
             setModeSMS();
@@ -36,22 +39,24 @@ void motorGestor(){
             estado++;
         } else if(content == 2 || content == 3){
             letter = getCharacter();
+            gotDef();
             setCharUser(letter, flag);
             estado=5; //igual dos estado++ mas optimo
         }
     } else if(estado == 4) {
         if (letter != '#'){
-            printChar(letter);
+            LcPutChar(letter);
+            //printChar();
             estado--;
         } else{
             estado = 6;    //posible 2 ++;
         }
                 
     } else if(estado == 5) {
-        if (currentLetters()== 8){
+        if (numberLetters()== 8){
             estado++;
         }else{
-            setLCDPointer(6+currentLetters(), flag);
+            setLCDPointer(6+numberLetters(), flag);
             estado = 3;
         }    
     } else if(estado == 6) {
@@ -61,7 +66,7 @@ void motorGestor(){
             resetCurrentLetters();
             estado=3;
         } else {
-            startUserSerch();
+            startUserSearch();
             disableModeSMS();
             estado++;
         }
@@ -70,7 +75,7 @@ void motorGestor(){
             estado=0;
         } else if(searchFinished()==2 && option == 2){
             registerUser();
-            printaUserPasswd();
+            printaMenu(2);
             flag=0;
             setLCDPointer(6,flag);
             setModeSMS();
@@ -79,11 +84,11 @@ void motorGestor(){
         }
     } else if(estado == 8) {
         if (passwdCheck() == 2){
-            estado = 0;
+            estado = 0; 
         }
         if (passwdCheck() == 1){
-            printaMenu2(0);
-            options = 0;
+            printaMenu(4);
+            option = 0;
             letter = 0;
             flag = 0;
             estado++;

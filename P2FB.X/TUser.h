@@ -1,9 +1,7 @@
 typedef struct {
-    char nom[8];
-    char password[8];
+    char nom[9];
+    char password[9];
 } User;
-
-static char currentLetters = 0;
 
 //Flag --> 0 estamos en user, si es 1 estamos  escribiendo passwd 
 void setCharUser(char c, char flag);
@@ -11,7 +9,7 @@ void setCharUser(char c, char flag);
 //Post:
 
 
-char currentLetters(void);
+char numberLetters(void);
 //Pre:
 //Post:
 
@@ -44,3 +42,9 @@ char passwdCheck(void);
 //      Returns 0 si aun no ha acabado de comprobar la contrasenya
 //      Returns 1 si ya ha acabado de comprobar la contrasenya y es incorrecta
 //      Returns 2 si ya ha acabado de comprobar la contrasenya y es correcta
+
+
+void registerUser();
+//Pre:
+//Post:
+//      Registers user (lo añade a la ROM)

@@ -1,5 +1,7 @@
-#ifndef _JOYSTICK_H_
-#define _JOYSTICK_H_
+#ifndef _TJOYSTICK_H_
+#define _TJOYSTICK_H_
+
+#include "TADC.h"
 
 
 char actionAvailable(void);
@@ -18,6 +20,6 @@ void startJoystick(void);
 //Pre: 
 //Post: 
 
-
+void motorJoystick(void);
 
 #endif

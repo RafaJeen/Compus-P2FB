@@ -1,5 +1,5 @@
 #include "TJoystick.h"
-#include "TADC.h"
+
 
 static char estado = 0;
 static char action = 'Q';

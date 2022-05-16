@@ -13,7 +13,7 @@
 // Si anem justos de memoria, aquest define indica el
 // nombre de timers d'aquest TAD i es pot modificar sense
 // problemes.
-#define         TI_NUMTIMERS                    32
+#define         TI_NUMTIMERS                    8
 
 
 // El seg�ent define marca la dist�ncia temporal m�xima

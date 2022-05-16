@@ -73,15 +73,18 @@ void TiInit () {
 	// Anem a 40MHz
 	T0CONbits.T08BIT=0; // 16 bits
 	T0CONbits.T0CS = 0;	// Clock: fosc/4
-	T0CONbits.PSA = 0; // Prescaler --> 32
-	T0CONbits.T0PS = 4; // Preescaler a 1/32, pols de 4us  
+	T0CONbits.PSA = 0; // Prescaler --> 16
+	T0CONbits.T0PS = 3; // Preescaler a 1/16, pols de 4us  
 	// La resta de valors de T1CON per defecte
-	TMR0L=6;	// (256-6) * 4us = 1ms 
+	TMR0H = 0b11111101; 
+	TMR0L = 0b10001111;	// (256-6) * 4us = 1ms 
 	T0CONbits.TMR0ON = 1;		// Activo el timer
 	// Activo la interrupci� del timer 1
 	INTCONbits.TMR0IF = 0;
 	INTCONbits.TMR0IE = 1;
 }
+
+//64911
 
 char TiGetTimer() {
 	unsigned char counter=0;

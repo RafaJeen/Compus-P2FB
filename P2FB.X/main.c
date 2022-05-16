@@ -5,6 +5,8 @@
 #include "TADC.h"
 #include "TTeclat.h"
 #include "TGestorLCD.h"
+#include "TJoystick.h"
+#include "TGestor.h"
 
 
 //Configs de asm. El fet de posar pragma ens permetrà accedir al compilador i posar instruccions de asm
@@ -32,12 +34,13 @@ void initPorts(void) {
     TRISA = 256;
     TRISB = 0;
     TRISC = 0b11000000;
-    TRISD = 0;
+    //TRISD = 0;
 }
 
 void initInterrupts(void) {
  	RCONbits.IPEN = 0;
     INTCONbits.GIE = 1;
+    INTCONbits.PEIE = 1;
 }
 
 
@@ -45,18 +48,21 @@ void initInterrupts(void) {
 void main() {
     initPorts();
     initInterrupts();
-    LcInit(2, 16);
     TiInit();
+    LcInit(2, 16);
     initSIO();
     initADC();
     initTeclat();
+    LcCursorOff();
 
-    printaPrimerMenu();
 
-
-    while(1) {
+    while(1) {     
         //Call all motors
-        
+        motorBarrido();
+        motorTeclat();
+        motorGestor();
+        motorJoystick();    
+        motorGestorLCD(); 
     }
 
     return;

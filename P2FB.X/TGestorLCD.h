@@ -7,18 +7,17 @@
 // Pre: 
 // Post:
 
-void printaMenu1(void);
+void printaMenu(char c);
 //Printa primer menu de todos
 
-void printaMenu2(char index);
-//Printa menu principal
 
-
-void printaUserPsswd(void);
+void printaUserPswd(void);
 //Printa User: || Pswd:
 
 void setLCDPointer(char columna, char fila);
 
 void printChar(char c);
+
+void motorGestorLCD(void);
 
 #endif

@@ -17,6 +17,16 @@ void gotDef(void);
 //Pre: 
 //Post: 
 
+char getCharacter(void);
+
+void setModeSMS(void);
+
+void disableModeSMS(void);
+
+void motorTeclat(void);
+
+void motorBarrido(void);
+
 
 
 

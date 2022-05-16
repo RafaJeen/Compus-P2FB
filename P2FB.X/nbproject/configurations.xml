@@ -11,6 +11,8 @@
       <itemPath>TSIO.h</itemPath>
       <itemPath>TTeclat.h</itemPath>
       <itemPath>TGestorLCD.h</itemPath>
+      <itemPath>TGestor.h</itemPath>
+      <itemPath>TUser.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -27,6 +29,8 @@
       <itemPath>lcTLCD.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>TGestorLCD.c</itemPath>
+      <itemPath>TGestor.c</itemPath>
+      <itemPath>TUser.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
