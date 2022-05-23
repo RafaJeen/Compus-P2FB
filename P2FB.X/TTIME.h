@@ -4,7 +4,7 @@
 #include "TITTIMER.h"
 #include "TGestorLCD.h"
 
-#define ONESEC 1205
+#define ONESEC 1025
 
 void modifyTime(char *modTime);
 

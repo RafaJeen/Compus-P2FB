@@ -32,10 +32,10 @@ struct Timer {
 static unsigned int  h_Tics=0;
 static int counter;
 
-static char time[4];
+/*static char time[4];
 static char flag=0;
 static char currentLetters=0;
-static char currentBits=0;
+static char currentBits=0;*/
 
 //
 //---------------------------End--VARIABLES---AREA-----------
@@ -62,23 +62,13 @@ void RSI_Timer0 (void) {
 	}
 //	IO_SetValue(GPIO_1, 0); // Per comprovar la temportitzaci�
 
-	if(flag) {
+	/*if(flag) {
 		if(currentBits==0) { //Enviamos StartBit
 			LATCbits.LATC1=0;
 			currentBits++;
 			return;
 		}
 		if(currentBits > 0 && currentBits < 9) {
-			/*if(time[currentLetters] & (1 << (currentBits-1))){
-				LATCbits.LATC1=1;
-			} else {
-				LATCbits.LATC1=0;
-			}*/
-			/*if((time[currentLetters] >> (currentBits-1)) & 1){
-				LATCbits.LATC1=1;
-			} else {
-				LATCbits.LATC1=0;
-			}*/
 			LATCbits.LATC1 = (time[currentLetters] >> (currentBits-1)) & 1;
 			currentBits++;
 		} else {
@@ -91,7 +81,7 @@ void RSI_Timer0 (void) {
 			}
 		return;
 		}
-	}
+	}*/
 }
 //
 //---------------------------End--PRIVADES----AREA-----------
@@ -155,6 +145,7 @@ void TiCloseTimer (unsigned char Handle) {
 void TiEnd () {
 }
 
+/*
 void sendDecTime(char *decTime) {
 	time[0]=decTime[0]+'0';
 	time[1]=decTime[1]+'0';
@@ -163,14 +154,14 @@ void sendDecTime(char *decTime) {
 	/*time[0]=decTime[0];
 	time[1]=decTime[1];
 	time[2]=decTime[2];
-	time[3]=decTime[3];*/
+	time[3]=decTime[3];
 	flag=1;
 }
 
 char sendAvailable() {
 	return flag == 0;
 }
-
+*/
 //
 //---------------------------End--PUBLIQUES---AREA-----------
 //

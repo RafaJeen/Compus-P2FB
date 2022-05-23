@@ -82,7 +82,8 @@ void main() {
         motorAccion();
         motorUser();
         motorTime();
-        motorSIO();
+        motorBluetooth();
+        motorOwnSIO();
     }
 
     return;

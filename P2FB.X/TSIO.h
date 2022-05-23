@@ -2,8 +2,9 @@
 #define _TSIO_H_
 
 #include <xc.h>
+#include "TITTIMER.h"
 
-void motorSIO(void);
+void motorBluetooth(void);
 
 void initSIO(void);
 //Post: returns the number of available characters that are in the reception queue.
@@ -22,6 +23,8 @@ char SiIsAvailable(void);
 void SiSendChar(char c);
 //Pre: SiIsAvailable().
 //Post: starts sending the specified character.
+
+void motorOwnSIO(void);
 
 
 #endif
