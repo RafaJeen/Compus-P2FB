@@ -1,6 +1,9 @@
 #ifndef _TSIO_H_
 #define _TSIO_H_
 
+#include <xc.h>
+
+void motorSIO(void);
 
 void initSIO(void);
 //Post: returns the number of available characters that are in the reception queue.

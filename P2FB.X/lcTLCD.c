@@ -17,8 +17,6 @@
 // http://web.alfredstate.edu/weimandn/lcd/lcd_initialization/lcd_initialization_index.html
 // Still observing the same alteration with Busy, except with the timeout.
 
-#include <xc.h>
-#include "TITTIMER.h"
 #include "LcTLCD.h"
 
 

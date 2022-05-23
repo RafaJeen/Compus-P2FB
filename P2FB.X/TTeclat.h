@@ -1,6 +1,13 @@
 #ifndef _JOYSTICK_H_
 #define _JOYSTICK_H_
 
+#include <xc.h>
+#include "TITTIMER.h"
+#include "LcTLCD.h"
+
+#define TREBOTS 20
+#define ONESEC 1205
+
 void initTeclat(void);
 //Pre: 
 //Post: 
@@ -27,6 +34,7 @@ void motorTeclat(void);
 
 void motorBarrido(void);
 
+char noPremut(void);
 
 
 

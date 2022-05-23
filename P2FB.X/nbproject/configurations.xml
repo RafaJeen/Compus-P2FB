@@ -5,7 +5,6 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>LcTLCD.h</itemPath>
-      <itemPath>TADC.h</itemPath>
       <itemPath>TITTIMER.h</itemPath>
       <itemPath>TJoystick.h</itemPath>
       <itemPath>TSIO.h</itemPath>
@@ -13,6 +12,7 @@
       <itemPath>TGestorLCD.h</itemPath>
       <itemPath>TGestor.h</itemPath>
       <itemPath>TUser.h</itemPath>
+      <itemPath>TTIME.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -21,7 +21,6 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>TADC.c</itemPath>
       <itemPath>TITTIMER.c</itemPath>
       <itemPath>TJoystick.c</itemPath>
       <itemPath>TSIO.c</itemPath>
@@ -31,6 +30,7 @@
       <itemPath>TGestorLCD.c</itemPath>
       <itemPath>TGestor.c</itemPath>
       <itemPath>TUser.c</itemPath>
+      <itemPath>TTIME.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -168,6 +168,7 @@
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>

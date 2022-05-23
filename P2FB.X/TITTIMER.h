@@ -4,11 +4,12 @@
 // Desembre de 2001. FEC. Ajustat per al Fujitsu 90583
 // Mar� de 2010. FEC. Ajustat per al PIC24 (com passen els anys...)
 // 
-
-
 #ifndef _TITTIMER_H_
 #define _TITTIMER_H_
 
+#include "TITTIMER.h"
+#include <xc.h>
+#include "LcTLCD.h"
 
 // Si anem justos de memoria, aquest define indica el
 // nombre de timers d'aquest TAD i es pot modificar sense
@@ -62,5 +63,9 @@ void TiEnd (void);
 	/*********************************************************************
 	//Postcondicions: Tanca el T.A.D.
 	\\*********************************************************************/
+
+void sendDecTime(char *decTime);
+
+char sendAvailable();
 
 #endif

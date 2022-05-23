@@ -1,8 +1,10 @@
 #ifndef _TJOYSTICK_H_
 #define _TJOYSTICK_H_
 
-#include "TADC.h"
+#include <xc.h>
 
+
+void initADC(void);
 
 char actionAvailable(void);
 //Pre: 

@@ -43,6 +43,7 @@
 //
 
 #include <xc.h>
+#include "TITTIMER.h"
 
 //RD0 --> RS
 //RD1 --> RW

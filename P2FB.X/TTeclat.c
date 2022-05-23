@@ -1,10 +1,4 @@
-#include <xc.h>
 #include "TTeclat.h"
-#include "TITTIMER.h"
-#include "LcTLCD.h"
-
-#define TREBOTS 16
-#define ONESEC 1000
 
 
 static char estado = 0;
@@ -25,12 +19,12 @@ static char teclat[4][3][5] =
     {{'1', 0, 0, 0, 0}, {'2', 'A', 'B', 'C', 0}, {'3', 'D', 'E', 'F', 0}},
     {{'4', 'G', 'H', 'I', 0}, {'5', 'J', 'K', 'L', 0}, {'6', 'M', 'N', 'O', 0}},
     {{'7', 'P', 'Q', 'R', 'S'}, {'8', 'T', 'U', 'V', 0}, {'9', 'W', 'X', 'Y', 'Z'}},
-    {{'*', 0, 0, 0, 0}, {'0', 0, 0, 0, 0}, {'#', 0, 0, 0, 0}}
+    {{'*', 0, 0, 0, 0}, {'0', ' ', 0, 0, 0}, {'#', 0, 0, 0, 0}}
 };
 
 
 //Cambiar pines
-void setFila(char f0, char f1, char f2, char f3){
+void setFila(char f3, char f2, char f1, char f0){
   LATBbits.LATB0 = f0;
   LATBbits.LATB1 = f1;
   LATBbits.LATB2 = f2;
@@ -46,6 +40,7 @@ void initTeclat(void){
 
 void motorBarrido(void) {
   if(escombratEnabled){
+    fila=estadoBarrido;
     if(estadoBarrido == 0){
       setFila(0,0,0,1);
       estadoBarrido++;
@@ -59,7 +54,6 @@ void motorBarrido(void) {
       setFila(1,0,0,0);
       estadoBarrido=0;
     }
-    fila = estadoBarrido;
   }
 }
 
@@ -75,28 +69,52 @@ char hiHaColumna(void){
   }else{
     return 3;
   }
+  //return 3;
 }
 
 
 void incrementaCops(void){
     cops++;
-    if(((fila == 0 && columna == 0) || fila == 3) && cops == 1){
+    /*if(((fila == 0 && columna == 0) || fila == 3) && cops == 1){
         cops = 0;
+        return;
     }
 
     if(((fila ==0 && (columna == 1 || columna == 2)) || fila == 1 || (fila == 2 && columna == 1)) && cops == 4){
         cops = 0;
+        return;
     }
 
     if((fila == 2 && (columna == 0 || columna == 2)) && cops == 5){
         cops = 0;
+        return;
+    }*/
+
+    if((filaDef == 0 && columnaDef == 0) || (filaDef == 3 && (columnaDef == 0 || columnaDef == 2)) && cops == 1){
+        cops = 0;
+        return;
     }
-  
+
+    if(((filaDef == 0 && (columnaDef == 1 || columnaDef == 2)) || filaDef == 1 || (filaDef == 2 && columnaDef == 1)) && cops == 4){
+        cops = 0;
+        return;
+    }
+
+    if((filaDef == 2 && (columnaDef == 0 || columnaDef == 2)) && cops == 5){
+        cops = 0;
+        return;
+    }
+
+    if((filaDef == 3 && columnaDef == 1) && cops == 2){
+        cops = 0;
+        return;
+    } 
 }
 
 
 void setModeSMS(void) {
     modeSMS = 1;
+    counting = 0;
 }
 
 void disableModeSMS(void) {
@@ -105,10 +123,6 @@ void disableModeSMS(void) {
     counting = 0;
 }
 
-char charAvailable(void) {
-    //Mirar si hay nuevo contenido
-    //return columna != 3 && fila != 4;
-}
 
 char getCharacter(void) {
     if (availability == 3) {
@@ -143,8 +157,8 @@ void checkChar (void){
     columnaDef = columna;
     availability = 1;
   } else {
-    if(hiHaColumna() == columna){
-      cops++;
+    if(columna == columnaDef && fila == filaDef){
+      incrementaCops();
       availability = 1;
     } else {
       availability = 2;
@@ -155,37 +169,43 @@ void checkChar (void){
 void gotDef(void){
   filaDef = fila;
   columnaDef = columna;
+  cops = 0;
+  if (teclat[filaDef][columnaDef][cops] == '#'){
+    counting = 0;
+  }
+}
+
+char noPremut(){
+  return escombratEnabled;
 }
 
 void motorTeclat(void) {
   if (estado == 0){
-    LcPutChar('e');
     if(hiHaColumna() != 3){
-      
       escombratEnabled = 0;
       columna = hiHaColumna();
       TiResetTics(t);
       estado++;
     }
-    if (counting == 1 && TiGetTics(t) >= ONESEC) { 
+    if(counting == 1 && TiGetTics(t) >= ONESEC) { 
       counting = 0;
       availability = 3;
     }
   } else if (estado == 1){
     if (TiGetTics(t) >= TREBOTS){
-        if (columna != hiHaColumna ()){
+        if (columna != hiHaColumna()){
           columna = 3;
           escombratEnabled = 1;
           estado--;
         }
-        if (columna == hiHaColumna && modeSMS == 1){
+        if (columna == hiHaColumna() && modeSMS == 1){
           checkChar();
           estado++;
         }
-        if (columna == hiHaColumna && modeSMS == 0){
+        if (columna == hiHaColumna() && modeSMS == 0){
           availability = 1;
           gotDef();
-          estado=3;
+          estado++;
         }
     }
   } else if(estado == 2) {
@@ -195,15 +215,19 @@ void motorTeclat(void) {
     }
   } else if(estado == 3){
     if (TiGetTics(t) >= TREBOTS){
-      if (hiHaColumna != 3){
+      if (hiHaColumna() != 3){
         estado--;
       }
-      if (hiHaColumna == 3 && modeSMS == 0){
+      if (hiHaColumna() == 3 && modeSMS == 0){
+        escombratEnabled = 1;
         estado = 0;
       }
-      if (hiHaColumna == 3 && modeSMS == 1){
-        counting = 1;
-        TiResetTics(t);
+      if (hiHaColumna() == 3 && modeSMS == 1){
+        if(teclat[filaDef][columnaDef][cops] != '#'){
+          counting = 1;
+          TiResetTics(t);
+        }
+        escombratEnabled = 1;
         estado = 0;
       }
 

@@ -1,3 +1,38 @@
+#ifndef _TUSER_H_
+#define _TUSER_H_
+
+#include "LcTLCD.h"
+
+/*
+----> pointerLastRegistered
+----> characterN userM      
+----> characterN userM
+----> characterN userM
+----> characterN userM
+----> characterN userM
+----> characterN userM
+----> characterN userM
+----> characterN userM
+----> characterN userM
+----> characterN passwdM
+----> characterN passwdM
+----> characterN passwdM
+----> characterN passwdM
+----> characterN passwdM
+----> characterN passwdM
+----> characterN passwdM
+----> characterN passwdM
+----> characterN passwdM
+               .
+               .
+               .
+               .
+               .
+               .
+               .
+*/
+
+
 typedef struct {
     char nom[9];
     char password[9];
@@ -36,15 +71,16 @@ void startPasswordCheck(void);
 //Pre:
 //Post:
 
-char passwdCheck(void);
-//Pre:
-//Post:
-//      Returns 0 si aun no ha acabado de comprobar la contrasenya
-//      Returns 1 si ya ha acabado de comprobar la contrasenya y es incorrecta
-//      Returns 2 si ya ha acabado de comprobar la contrasenya y es correcta
 
-
-void registerUser();
+void registerUser(void);
 //Pre:
 //Post:
 //      Registers user (lo añade a la ROM)
+
+void initUsers(void);
+
+void motorAccion(void);
+
+void motorUser(void);
+
+#endif

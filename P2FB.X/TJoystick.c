@@ -1,12 +1,20 @@
 #include "TJoystick.h"
 
+#include "LcTLCD.h"
 
-static char estado = 0;
+static char estado = 4;
 static char action = 'Q';
 static char channel = 0;
 static unsigned char mostra = 128;
 static char a = 0;
 
+
+void initADC(void){
+    ADCON0 = 0b00000011;
+    ADCON1 = 0b00001101;
+    ADCON2 = 0b00001100;
+
+}
 
 char checkMostra(void){
     if (mostra >= 240 && channel == 0){
@@ -17,11 +25,11 @@ char checkMostra(void){
        action = 'D';
        return 0;   
     }
-    if (mostra >= 240 && channel == 0){
+    if (mostra <= 15 && channel == 0){
         action = 'S';
         return 0;   
     }
-    if (mostra >= 240 && channel == 1){
+    if (mostra <= 15 && channel == 1){
         action = 'A';
         return 0;   
     }
@@ -39,11 +47,11 @@ char checkMostra(void){
 
 void motorJoystick(void){
     if (estado == 0) {
-        //startConversion();
+        ADCON0bits.GO = 1;
         estado++;
     } else if(estado == 1){
-        if ( AdSampleAvailable() == 1){
-            mostra = AdGetMostra();
+        if (ADCON0bits.GO == 0){
+            mostra = ADRESH;
             estado++;
         }
     } else if(estado == 2) {
@@ -51,7 +59,7 @@ void motorJoystick(void){
             estado++;
         } else{
             channel = !channel;
-            AdSetChannel(channel);
+            ADCON0bits.CHS0 = channel;
             estado = 0;  
         }
     }
@@ -78,10 +86,3 @@ void stopJoystick(void){
 void startJoystick(void){
     estado = 0;
 }
- 
-
-
-
-
-
-
