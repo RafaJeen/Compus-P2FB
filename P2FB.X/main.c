@@ -84,6 +84,7 @@ void main() {
         motorTime();
         motorBluetooth();
         motorOwnSIO();
+        motorOwnReceiveSIO();
     }
 
     return;

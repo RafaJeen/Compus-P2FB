@@ -3,6 +3,7 @@
 
 #include <xc.h>
 #include "TITTIMER.h"
+#include "LcTLCD.h"
 
 void motorBluetooth(void);
 
@@ -26,5 +27,14 @@ void SiSendChar(char c);
 
 void motorOwnSIO(void);
 
+void motorOwnReceiveSIO(void);
+
+void enableReceiveSIO();
+
+void disableReceiveSIO();
+
+char newOwnContent();
+
+char getOwnContent();
 
 #endif

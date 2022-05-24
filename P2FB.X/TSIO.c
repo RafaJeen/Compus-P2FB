@@ -40,12 +40,16 @@ void SiSendChar(char c) {
 static char BufferTX[5];
 static char FiTx=0;
 static char QuantsTX=0;
-static char t = 0;
+static char t=0;
+static char t2=0;
 static char time[6];
-static char currentLetters;
-static char currentShifted;
-static char estado;
-
+static char currentLetters=0;
+static char currentShifted=0;
+static char estado=0;
+static char estadoReceive=0;
+static char dataObtained;
+static char bitsReceived=0;
+static char newData=0;
 
 //------------------------ FUNCTIONS ----------------------
 
@@ -65,7 +69,8 @@ void initSIO(void) {
 
 	QuantsTX = FiTx = 0;
     
-    t = TiGetTimer();
+    t = TiGetTimer(); //TMR para enviamiento de la SIO personalizada
+    t2 = TiGetTimer(); //TMR para el recibimiento de la SIO personalizda
 }
 
 void motorOwnSIO(){
@@ -104,8 +109,64 @@ void motorOwnSIO(){
 }
 
 
+void motorOwnReceiveSIO(){
+    if(estadoReceive == 1){
+        //if(bitsReceived < 8){
+        if(bitsReceived > 0){
+            dataObtained=0;
+            dataObtained = dataObtained | PORTCbits.RC0;
+            dataObtained = dataObtained << 1;
+            bitsReceived++;
+            estadoReceive++;
+        }else{
+            if(PORTCbits.RC0 == 0){
+                bitsReceived++;
+                estadoReceive++;
+            }
+        }
+        /*}else{
+            estadoReceive=3;
+        }*/
+        TiResetTics(t2);
+    }else if(estadoReceive == 2){
+        if(TiGetTics(t2) >= 1){
+            if(bitsReceived < 9) { // < 10
+                estadoReceive--;
+            } else {
+                estadoReceive++;
+            }
+            TiResetTics(t2);
+        }
+    }else if(estadoReceive == 3) {
+        if(TiGetTics(t2) >= 1) {
+            if(PORTCbits.RC0 == 1){
+                newData=1;
+                estadoReceive=1;
+                bitsReceived=0;
+            }
+            //enviar dataObtained
+            /*LcGotoXY(12,1);
+            LcPutChar(dataObtained);*/   
+        }
+    }
+}
 
+void enableReceiveSIO() {
+    estadoReceive++;
+}
 
+void disableReceiveSIO() {
+    estadoReceive=0;
+}
+
+char newOwnContent() {
+    return newData;
+}
+
+char getOwnContent() {
+    newData=0;
+    return dataObtained;
+}
 
 
 void motorBluetooth() {

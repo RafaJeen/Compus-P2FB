@@ -165,6 +165,7 @@ void motorGestor(){
         if (letter == 1){
             option = 0;
             estado=14;
+            enableReceiveSIO();
             return;
         }
         if (letter == 2){
@@ -247,7 +248,7 @@ void motorGestor(){
                 //En este momento se hace el proceso de final de partida
                 stopShowTime();
                 stopJoystick();
-
+                disableReceiveSIO();
                 //goToMenu();
                 SiSendChar('F');
                 estado++;
@@ -256,6 +257,10 @@ void motorGestor(){
             }
         } else if(actionAvailable()) {
             SiSendChar(getAction());
+        } else if(newOwnContent()) {
+            getOwnContent();
+            SiSendChar(getOwnContent());
+            //SiSendChar('W');
         }
     } else if(estado == 17) {
         if(SiCharAvail()) {
