@@ -12,6 +12,7 @@
 #include "TAltaveu.h"
 
 #define THREESEC 3615
+#define TWOSEC 2410
 
 void motorGestor(void);
 

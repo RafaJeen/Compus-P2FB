@@ -73,6 +73,7 @@ void main() {
     initTime();
     initGestor();
     initAltaveu();
+    initGestorLCD();
 
     while(1) {     
         //Call all motors

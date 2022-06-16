@@ -193,7 +193,9 @@ void motorGestor(){
             return;
         }
         if (letter == 4){
-            
+            printaLogOut(name);
+            estado = 22;
+            TiResetTics(t);
             return;
         }
         if (letter == 5){
@@ -311,6 +313,10 @@ void motorGestor(){
             if (letter == '#'){
                 goToMenu();
             }
+        }
+    } else if (estado == 22){
+        if(TiGetTics(t) >= TWOSEC){
+            estado = 0;
         }
     }
 }
