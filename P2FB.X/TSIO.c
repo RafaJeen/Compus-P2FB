@@ -48,6 +48,9 @@ static char currentShifted=0;
 static char estado=0;
 static char estadoReceive=0;
 static char dataObtained;
+static char aux;
+//static char elementsReceived=0;
+//static char elementsSended=0;
 static char bitsReceived=0;
 static char newData=0;
 
@@ -109,13 +112,12 @@ void motorOwnSIO(){
 }
 
 
-void motorOwnReceiveSIO(){
+/*void motorOwnReceiveSIO(){
     if(estadoReceive == 1){
         //if(bitsReceived < 8){
         if(bitsReceived > 0){
-            dataObtained=0;
-            dataObtained = dataObtained | PORTCbits.RC0;
-            dataObtained = dataObtained << 1;
+            //dataObtained=0;
+            dataObtained = dataObtained | (PORTCbits.RC0 & 0x80);
             bitsReceived++;
             estadoReceive++;
         }else{
@@ -124,18 +126,19 @@ void motorOwnReceiveSIO(){
                 estadoReceive++;
             }
         }
-        /*}else{
+        }else{
             estadoReceive=3;
-        }*/
+        }
         TiResetTics(t2);
     }else if(estadoReceive == 2){
         if(TiGetTics(t2) >= 1){
             if(bitsReceived < 9) { // < 10
+                dataObtained = dataObtained >> 1;
                 estadoReceive--;
             } else {
                 estadoReceive++;
             }
-            TiResetTics(t2);
+            //TiResetTics(t2);
         }
     }else if(estadoReceive == 3) {
         if(TiGetTics(t2) >= 1) {
@@ -146,13 +149,58 @@ void motorOwnReceiveSIO(){
             }
             //enviar dataObtained
             /*LcGotoXY(12,1);
-            LcPutChar(dataObtained);*/   
+            LcPutChar(dataObtained);
+        }
+    }
+}*/
+
+
+
+void motorOwnReceiveSIO(){
+    if(estadoReceive == 1){
+        if(TiGetTics(t2)>=1){
+            if(PORTCbits.RC0 == 0){
+                estadoReceive++;
+                dataObtained=0;
+            }
+            TiResetTics(t2);
+        }
+    } else if(estadoReceive==2) {
+        if (TiGetTics(t2) >= 1){
+            //0x80
+            //dataObtained = ((PORTCbits.RC0) & 0x80) | dataObtained; 
+            if(PORTCbits.RC0) {
+                dataObtained = dataObtained | 0b10000000;     
+            } else {
+                dataObtained = dataObtained & 0b01111111;
+            }
+            TiResetTics(t2);
+            bitsReceived++;
+            if (bitsReceived == 8){
+                estadoReceive++;
+            }else{
+                dataObtained = dataObtained >> 1;
+            }
+        }
+    } else if(estadoReceive == 3) {
+        if (TiGetTics(t2) >= 1){
+             if(PORTCbits.RC0 == 1){
+                newData=1;
+                aux=dataObtained;
+                dataObtained=0;
+                estadoReceive=1;
+                bitsReceived=0;
+             }
         }
     }
 }
 
+
+
 void enableReceiveSIO() {
+    TiResetTics(t2);
     estadoReceive++;
+    dataObtained = 0;
 }
 
 void disableReceiveSIO() {
@@ -165,7 +213,7 @@ char newOwnContent() {
 
 char getOwnContent() {
     newData=0;
-    return dataObtained;
+    return aux;
 }
 
 

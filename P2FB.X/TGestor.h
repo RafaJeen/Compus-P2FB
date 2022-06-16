@@ -9,6 +9,7 @@
 #include "LcTLCD.h"
 #include "TTIME.h"
 #include "TITTIMER.h"
+#include "TAltaveu.h"
 
 #define THREESEC 3615
 

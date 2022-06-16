@@ -4,11 +4,13 @@
 #include "TITTIMER.h"
 #include "TGestorLCD.h"
 
-#define ONESEC 1025
+#define ONESEC 1204
 
 void modifyTime(char *modTime);
 
 void initTime(void);
+
+char timeFinished();
 
 void showActualTime();
 

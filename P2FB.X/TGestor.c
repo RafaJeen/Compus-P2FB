@@ -53,6 +53,16 @@ void updateModMinSec() {
     flag++;
 }
 
+void endGame(void) {
+    stopShowTime();
+    stopJoystick();
+    stopMusic();
+    disableReceiveSIO();
+    //goToMenu();
+    SiSendChar('F');
+    estado++;
+}
+
 void motorGestor(){
     if (estado== 0){
         printaMenu(0);
@@ -230,6 +240,7 @@ void motorGestor(){
             if(name[option] == '\0'){
                 option=0;
                 printaMenu(16);
+                LcClear();
                 estado++;
             } else {
                 option++;
@@ -239,6 +250,8 @@ void motorGestor(){
         if(SiCharAvail() && SiGetChar() == 'K'){
             printaMenu(14);
             startGameCount();
+            playMusic();
+            LcClear();
             estado++;
         }
     } else if(estado == 16) {
@@ -246,21 +259,16 @@ void motorGestor(){
             letter = getCharacter();
             if(letter == '*') {
                 //En este momento se hace el proceso de final de partida
-                stopShowTime();
-                stopJoystick();
-                disableReceiveSIO();
-                //goToMenu();
-                SiSendChar('F');
-                estado++;
+                endGame();
             } else if(letter != '#') {
                 SiSendChar(letter);
             }
         } else if(actionAvailable()) {
             SiSendChar(getAction());
         } else if(newOwnContent()) {
-            getOwnContent();
             SiSendChar(getOwnContent());
-            //SiSendChar('W');
+        }  else if(timeFinished()) {
+            endGame();
         }
     } else if(estado == 17) {
         if(SiCharAvail()) {

@@ -13,6 +13,7 @@
       <itemPath>TGestor.h</itemPath>
       <itemPath>TUser.h</itemPath>
       <itemPath>TTIME.h</itemPath>
+      <itemPath>TAltaveu.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -31,6 +32,7 @@
       <itemPath>TGestor.c</itemPath>
       <itemPath>TUser.c</itemPath>
       <itemPath>TTIME.c</itemPath>
+      <itemPath>TAltaveu.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

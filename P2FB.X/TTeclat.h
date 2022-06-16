@@ -6,7 +6,7 @@
 #include "LcTLCD.h"
 
 #define TREBOTS 20
-#define ONESEC 1025
+#define ONESEC 1204
 
 void initTeclat(void);
 //Pre: 

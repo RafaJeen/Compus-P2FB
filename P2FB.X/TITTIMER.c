@@ -9,6 +9,8 @@
 //--------------------------------CONSTANTS---AREA-----------
 
 #include "TITTIMER.h"  
+#include "LcTLCD.h"
+
 
 #define         TI_FALS                         0
 #define         TI_CERT     					1

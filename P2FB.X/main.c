@@ -8,6 +8,7 @@
 #include "TGestor.h"
 #include "TUser.h"
 #include "TTIME.h"
+#include "TAltaveu.h"
 
 
 //Configs de asm. El fet de posar pragma ens permetrà accedir al compilador i posar instruccions de asm
@@ -71,6 +72,7 @@ void main() {
     initUsers();
     initTime();
     initGestor();
+    initAltaveu();
 
     while(1) {     
         //Call all motors
@@ -85,6 +87,7 @@ void main() {
         motorBluetooth();
         motorOwnSIO();
         motorOwnReceiveSIO();
+        motorAltaveu();
     }
 
     return;

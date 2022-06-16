@@ -36,9 +36,11 @@ void updateATime(void) {
     }  
 }
 
-char countingGameTime(void) {
-    return flag == 1;
+
+char timeFinished() {
+    return flag == 0;
 }
+
 
 void updateDecTime(void) {
     if(decTime[3] == 0){
@@ -51,7 +53,7 @@ void updateDecTime(void) {
                     decTime[1] = 0;
                     decTime[2] = 0;
                     decTime[3] = 0;
-                    flag = 1;
+                    flag = 0;
                 }else{
                     decTime[0]--;
                 }        
