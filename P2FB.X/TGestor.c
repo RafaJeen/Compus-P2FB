@@ -12,7 +12,8 @@ static char modTime[4];
 static char contenido = 0;
 static char name[9];
 static char currentSend = 0;
-static char t= 0;
+static char t = 0;
+static char scoreInt = 0;
 static char score[2];
 static char error[2];
 
@@ -275,6 +276,8 @@ void motorGestor(){
     } else if(estado == 17) {
         if(SiCharAvail()) {
             letter = SiGetChar();
+            scoreInt = letter;
+            saveScore(scoreInt);
             TiResetTics(t);
             score[0] = '0';
             score[1] = '0';

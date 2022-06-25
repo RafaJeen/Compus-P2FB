@@ -9,6 +9,10 @@ static char data = 0;
 static char estadoAction = 0;
 static char flag = 0;
 static char estado;
+static char scoreInt;
+static char score[2];
+static char pointer=0;
+static char pointerAux = 0;
 
 
 void setCharUser(char c, char flag) {
@@ -33,6 +37,10 @@ void resetCurrentLetters(void) {
 
 void setADDR(char user, char isPsswd){
     address = 1 + isPsswd*9 + 18*user;
+}
+
+void setADDRscore(char slot){ // En la direccion 145 es donde estara el puntero de donde escribir siguiente puntuacion
+    address =  146 + slot*11 ;
 }
 
 void startUserSearch(void){
@@ -90,6 +98,20 @@ void initUsers(void){
     readROM();
     estado=7;
 }
+
+void readROMscore(){
+    setADDRscore(pointer);
+    address += 10;
+    readROM();
+}
+
+void saveScore(char c) {
+    scoreInt = c;
+    estado=12;
+    address=145;
+    readROM();
+}
+
 
 void motorAccion(void) {
     if (estadoAction == 1) {
@@ -220,7 +242,70 @@ void motorUser(void) {
             writeROM(currentUser);
             estado = 0;
         }   
+    } else if(estado==12) {
+       if(estadoAction==0) {
+            if(data == 0xFF) {
+                pointer=0;
+                setADDRscore(pointer);
+                currentLetters=0;
+                writeROM(currentUser);
+                estado++;
+            } else {
+                pointer=data;
+                readROMscore();
+                estado=18;
+            }
+        }
+    } else if(estado==13) {
+       if(estadoAction==0) {
+            writeROM(user.nom[currentLetters++]);
+       }
+    } else if (estado == 14){
+        if (estadoAction == 0){
+            if (data == '\0'){
+                setADDRscore(pointer);
+                address = address + 10;
+                writeROM(scoreInt);
+                estado++;
+            }else{
+                writeROM(user.nom[currentLetters++]);
+            }
+        }
+    } else if (estado == 15){
+        if (estadoAction == 0){
+            pointer = 0;
+            pointerAux = 0;
+            scoreInt = 100;
+            readROMscore();
+            estado++;
+        }
+    } else if (estado == 16){
+        if (estadoAction == 0){
+            if (data == 0xFF){
+                pointerAux = pointer;
+                address = 145;
+                writeROM(pointerAux);
+                estado = 0;
+            } else{
+                if (data < scoreInt){
+                    scoreInt = data;
+                    pointerAux = pointer;
+                }
+                pointer++;
+                estado++;
+            }
+        }
+    } else if (estado == 17){
+        if (pointer != 5){
+            readROMscore();
+            estado--;
+        } else {
+            address = 145;
+            writeROM(pointerAux);
+            estado = 0;
+        }
     } 
+    
 }
 
 

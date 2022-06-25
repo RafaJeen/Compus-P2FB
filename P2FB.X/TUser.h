@@ -79,6 +79,8 @@ void registerUser(void);
 
 void initUsers(void);
 
+void saveScore(char c);
+
 void motorAccion(void);
 
 void motorUser(void);
