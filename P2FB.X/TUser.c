@@ -4,7 +4,7 @@
 static char currentLetters = 0;
 static User user;
 static char currentUser = 0;
-static char address;
+static unsigned char address;
 static char data = 0;
 static char estadoAction = 0;
 static char flag = 0;
@@ -99,12 +99,6 @@ void initUsers(void){
     estado=7;
 }
 
-void readROMscore(){
-    setADDRscore(pointer);
-    address += 10;
-    readROM();
-}
-
 void saveScore(char c) {
     scoreInt = c;
     estado=12;
@@ -112,10 +106,31 @@ void saveScore(char c) {
     readROM();
 }
 
+void readROMscore(char user) {
+    setADDRscore(user);
+    address+=10;
+    readROM();
+}
+
+void readROMname(char user, char currentLetters) {
+    setADDRscore(user);
+    address+=1+currentLetters;
+    readROM();
+}
+
+char dataROMavail() {
+    return estadoAction == 0;
+}
+
+char getROMdata() {
+    return data;
+}
+
 
 void motorAccion(void) {
     if (estadoAction == 1) {
-        EEADR = address + currentLetters;
+        //EEADR = address + currentLetters;
+        EEADR = address;
         EEDATA = data;
         EECON1bits.EEPGD = 0;
         EECON1bits.CFGS = 0;
@@ -124,6 +139,7 @@ void motorAccion(void) {
         EECON2 = 0x55;
         EECON2 = 0xAA;
         EECON1bits.WR = 1;
+        address++;
         estadoAction++;   
     } else if (estadoAction == 2) {
         if(EECON1bits.WR == 0) {
@@ -132,12 +148,14 @@ void motorAccion(void) {
             estadoAction=0;
         }
     } else if (estadoAction == 3) {
-        EEADR = address + currentLetters;
+        //EEADR = address + currentLetters;
+        EEADR = address;
         EECON1bits.EEPGD = 0;
         EECON1bits.CFGS = 0;
         EECON1bits.RD = 1;  
         data = EEDATA;
         estadoAction = 0;
+        address++;
     }
 }
 
@@ -212,10 +230,10 @@ void motorUser(void) {
     } else if (estado == 9) {
         if (estadoAction == 0){
             currentUser = data;
-            setADDR(currentUser, 0);
-            currentLetters = 0;
-            writeROM(user.nom[currentLetters]);
-            estado++;
+            pointer = 0;
+            setADDRscore(pointer);
+            readROM();
+            estado= 19;
         }      
     } else if (estado == 10) {
         if (estadoAction == 0 && user.nom[currentLetters] != '\0'){
@@ -252,14 +270,16 @@ void motorUser(void) {
                 estado++;
             } else {
                 pointer=data;
-                readROMscore();
+                readROMscore(pointer);
                 estado=18;
             }
         }
     } else if(estado==13) {
        if(estadoAction==0) {
             writeROM(user.nom[currentLetters++]);
+            estado++;
        }
+       
     } else if (estado == 14){
         if (estadoAction == 0){
             if (data == '\0'){
@@ -276,7 +296,7 @@ void motorUser(void) {
             pointer = 0;
             pointerAux = 0;
             scoreInt = 100;
-            readROMscore();
+            readROMscore(pointer);
             estado++;
         }
     } else if (estado == 16){
@@ -297,14 +317,49 @@ void motorUser(void) {
         }
     } else if (estado == 17){
         if (pointer != 5){
-            readROMscore();
+            readROMscore(pointer);
             estado--;
         } else {
             address = 145;
             writeROM(pointerAux);
             estado = 0;
         }
-    } 
+    } else if (estado==18) {
+        if(estadoAction==0) {
+            if(data != 0xFF && data > scoreInt) {
+                estado = 0;
+            } else if (data == 0xFF || data < scoreInt) {
+                setADDRscore(pointer);
+                writeROM(currentUser);
+                currentLetters=0;
+                estado=13;
+            }
+        }
+    } else if (estado == 19) {
+        if (estadoAction == 0){
+            if (data == currentUser){
+                address += 9;
+                writeROM(0xFF);
+            }
+            estado++;
+            pointer++;
+        }
+        
+    } else if (estado == 20) {
+        if (estadoAction == 0){
+            if (pointer != 5){
+                setADDRscore(pointer);
+                readROM();
+                estado--;
+            } else {
+                setADDR(currentUser, 0);
+                currentLetters=0;
+                writeROM(user.nom[currentLetters]);
+                estado = 10;
+            }
+        }
+        
+    }
     
 }
 

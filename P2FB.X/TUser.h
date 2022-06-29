@@ -81,6 +81,14 @@ void initUsers(void);
 
 void saveScore(char c);
 
+void readROMscore(char user);
+
+char dataROMavail();
+
+char getROMdata();
+
+void readROMname(char user, char currentLetters);
+
 void motorAccion(void);
 
 void motorUser(void);

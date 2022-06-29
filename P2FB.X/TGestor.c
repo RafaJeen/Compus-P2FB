@@ -190,7 +190,8 @@ void motorGestor(){
             return;
         }
         if (letter == 3){
-
+            showTop5();
+            estado = 13;
             return;
         }
         if (letter == 4){
@@ -277,7 +278,7 @@ void motorGestor(){
         if(SiCharAvail()) {
             letter = SiGetChar();
             scoreInt = letter;
-            saveScore(scoreInt);
+            //saveScore(scoreInt);
             TiResetTics(t);
             score[0] = '0';
             score[1] = '0';
@@ -299,8 +300,8 @@ void motorGestor(){
         }
         if(TiGetTics(t) >= THREESEC){
             getTime(modTime);
-            printaGameFinal(score, modTime);
-            //uploadScore(score);
+            printaGameFinal(score, modTime); 
+            saveScore(scoreInt);
             estado++;
             estado++;
         }
